@@ -26,6 +26,8 @@ export interface TextElement {
   frame?: Frame;
   /** Corner points of the element (word) */
   cornerPoints?: CornerPoints;
+  /** Angle(in degrees, clockwise is positive, range is [-180, 180]) of the element */
+  angle: number;
 }
 
 export interface TextLine {
@@ -35,6 +37,8 @@ export interface TextLine {
   frame?: Frame;
   /** Line corner points */
   cornerPoints?: CornerPoints;
+  /** Angle(in degrees, clockwise is positive, range is [-180, 180]) of the TextLine */
+  angle: number;
   /** Elements (words) in the line */
   elements: TextElement[];
   /** Languages recognized in the line */

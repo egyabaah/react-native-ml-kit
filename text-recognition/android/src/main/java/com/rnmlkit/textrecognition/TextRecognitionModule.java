@@ -93,6 +93,7 @@ public class TextRecognitionModule extends ReactContextBaseJavaModule {
         WritableMap map = Arguments.createMap();
 
         map.putString("text", line.getText());
+        map.putDouble("angle", (double) line.getAngle());
         if (line.getBoundingBox() != null) {
             map.putMap("frame", rectToMap(line.getBoundingBox()));
         }
@@ -105,6 +106,7 @@ public class TextRecognitionModule extends ReactContextBaseJavaModule {
         for (Text.Element element : line.getElements()) {
             WritableMap el = Arguments.createMap();
             el.putString("text", element.getText());
+            el.putDouble("angle", (double) element.getAngle());
             if (element.getBoundingBox() != null) {
                 el.putMap("frame", rectToMap(element.getBoundingBox()));
             }

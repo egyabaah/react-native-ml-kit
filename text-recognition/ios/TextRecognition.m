@@ -40,10 +40,27 @@ RCT_EXPORT_MODULE()
     return array;
 }
 
+- (CGFloat)angleFromCornerPoints:(NSArray<NSValue *> *)cornerPoints {
+    if (cornerPoints.count < 2) return 0.0;
+
+    CGPoint p1 = [cornerPoints[0] CGPointValue];
+    CGPoint p2 = [cornerPoints[1] CGPointValue];
+
+    CGFloat dx = p2.x - p1.x;
+    CGFloat dy = p2.y - p1.y;
+
+    CGFloat angleRadians = atan2(dy, dx);
+    CGFloat angleDegrees = angleRadians * (180.0 / M_PI);
+
+    return angleDegrees;
+}
+
+
 - (NSDictionary*)lineToDict: (MLKTextLine*)line {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     [dict setObject:line.text forKey:@"text"];
+    [dict setObject:@([self angleFromCornerPoints:line.cornerPoints]) forKey:@"angle"];
     [dict setObject:[self frameToDict:line.frame] forKey:@"frame"];
     [dict setObject:[self pointsToDicts:line.cornerPoints] forKey:@"cornerPoints"];
     [dict setObject:[self langsToDicts:line.recognizedLanguages] forKey:@"recognizedLanguages"];
@@ -52,6 +69,7 @@ RCT_EXPORT_MODULE()
     for (MLKTextElement* element in line.elements) {
         [elements addObject:@{
             @"text": element.text,
+            @"angle": @([self angleFromCornerPoints:element.cornerPoints]),
             @"frame": [self frameToDict:element.frame],
             @"cornerPoints": [self pointsToDicts:element.cornerPoints]
         }];
